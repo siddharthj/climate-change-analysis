@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>About: Climate change analysis</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+
+<h1>Islands Count per country list</h1>
+
+<table>
+    <tr>
+        <th>Country Code</th>
+        <th>Island Count</th>
+    </tr>
+    <tr th:each="islandCount : ${islandCounts}">
+        <td th:text="${islandCount.countryCode}"></td>
+        <td th:text="${islandCount.islandCount}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

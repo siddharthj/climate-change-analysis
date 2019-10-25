@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/climate-change.iml" filepath="$PROJECT_DIR$/climate-change.iml" />
+      <module fileurl="file://$PROJECT_DIR$/climate-change-analysis.iml" filepath="$PROJECT_DIR$/climate-change-analysis.iml" />
+    </modules>
+  </component>
+</project>
