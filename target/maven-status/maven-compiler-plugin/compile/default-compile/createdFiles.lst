@@ -1,5 +1,8 @@
 hello\model\IslandCount.class
-hello\AboutController.class
+hello\controller\D3TestDataController.class
 hello\OracleConfiguration.class
+hello\controller\WelcomeController.class
+hello\controller\D3TestController.class
+hello\controller\AboutController.class
 hello\Application.class
 hello\dao\IslandDao.class

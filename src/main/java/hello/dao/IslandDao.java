@@ -37,6 +37,7 @@ public class IslandDao {
                 data.add(islandCount);
             }
         }
+        con.close();
         return data;
     }
 }
