@@ -12,9 +12,10 @@
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet">
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../assets/demo/demo.css" rel="stylesheet">
-    <style type="text/css">/* Chart.js */
-@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/1/common.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/39/1/util.js"></script></head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
 
 <body class="">
 <div class="wrapper ">
@@ -31,7 +32,7 @@
                         <p>About</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="../motivation">
                         <i class="now-ui-icons business_bulb-63"></i>
                         <p>Motivation</p>
@@ -55,16 +56,16 @@
                         <p>Greenhouse Gas Analysis</p>
                     </a>
                 </li>
+                <li class="active">
+                    <a href="../query4">
+                        <i class="now-ui-icons business_chart-bar-32"></i>
+                        <p>Sector-wise CO2 Analysis</p>
+                    </a>
+                </li>
                 <li>
                     <a href="../query6">
                         <i class="now-ui-icons business_chart-bar-32"></i>
                         <p>Fuel consumption</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="../query4">
-                        <i class="now-ui-icons business_chart-bar-32"></i>
-                        <p>Sector-wise CO2 Analysis</p>
                     </a>
                 </li>
                 <li>
@@ -73,8 +74,6 @@
                         <p>DB information</p>
                     </a>
                 </li>
-
-
             </ul>
             <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
     </div>
@@ -84,54 +83,38 @@
         <!-- End Navbar -->
         <div class="panel-header panel-header-sm">
             <div class="header text-left">
-                <h2 class="title" style="margin-left: 20px;">Motivation</h2>
+                <h2 class="title" style="margin-left: 20px;">Sector wise CO2 emission analysis</h2>
             </div>
         </div>
         <div class="content"  style="margin-top: 0px;">
                 <div class="row">
 
-        <div class="card">
-            <div class="card-body">
-                <p> “The Paris Agreement” was signed by 196 countries under United Nations
-                    Framework Convention on climate change. In recent times, the agreement and its
-                    associated topics has been discussed several times among the world's largest
-                    economies. As we all know, climate change is a global phenomenon and its
-                    impacts are not limited to a single country. Also, it has been recently highlighted
-                    in various news reports that climate change is already costing billions of dollars
-                    per year. We wish to dig deeper into the subject and analyze what’s driving these
-                    changes over the years.</p>
-            </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="layout4">
+
+                            </div>
+                            <p><b>Trend Analysed:</b> This trend shows the comparison of CO2 emission by different sectors over the years.</p>
+                            <button id="button-query4" class="button" style="background-color:#f96332;border: none; color: white;
+  padding: 15px;text-align: center; text-decoration: none;  display: inline-block;   font-size: 16px;  margin: 4px 2px;border-radius: 5px;">Get trend analysis</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
         </div>
 
-
     </div>
-
 </div>
-
-</div>
-</div>
-
 <!--   Core JS Files   -->
 <script src="../assets/js/core/jquery.min.js"></script>
 <script src="../assets/js/core/popper.min.js"></script>
 <script src="../assets/js/core/bootstrap.min.js"></script>
 <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!-- Chart JS -->
-<script src="../assets/js/plugins/chartjs.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="../assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/now-ui-dashboard.js?v=1.0.1"></script>
-<!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-<script src="../assets/demo/demo.js"></script>
-<script>
-    $(document).ready(function() {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-    });
-</script>
+<script type="text/javascript" src="query4.js"></script>
 
 
 </body></html>

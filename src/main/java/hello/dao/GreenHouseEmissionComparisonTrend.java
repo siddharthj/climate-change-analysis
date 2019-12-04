@@ -28,12 +28,16 @@ public class GreenHouseEmissionComparisonTrend {
                 "\tfrom\n" +
                 "    \t(select\n" +
                 "        \tdistinct gh.emission_year as EYEAR,\n" +
-                "        \t(select sum(eamount) from (select emission_amount AS eamount from greenhouse_gas_emission where emission_year = gh.emission_year ORDER BY emission_amount DESC FETCH NEXT 3 ROWS ONLY) )as emission_data\n" +
+                "        \t(select sum(eamount) from " +
+                "                   (select emission_amount AS eamount " +
+                "                   from greenhouse_gas_emission where emission_year = gh.emission_year " +
+                "                   ORDER BY emission_amount DESC FETCH NEXT 3 ROWS ONLY) )as emission_data\n" +
                 "    \tfrom greenhouse_gas_emission gh order by eyear desc)\n" +
                 "        \tgh1,\n" +
                 "    \t(select\n" +
                 "        \tdistinct gh.emission_year as EYEAR,\n" +
-                "        \t(select sum(emission_amount) AS Addition from greenhouse_gas_emission where emission_year = gh.emission_year )as emission_data\n" +
+                "        \t (select sum(emission_amount) AS Addition from greenhouse_gas_emission " +
+                "               where emission_year = gh.emission_year )as emission_data\n" +
                 "    \tfrom greenhouse_gas_emission gh order by eyear desc)\n" +
                 "         \tgh2\n" +
                 "\twhere gh1.EYEAR = gh2.EYEAR";
