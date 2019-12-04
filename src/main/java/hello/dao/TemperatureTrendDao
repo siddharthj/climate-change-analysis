@@ -16,6 +16,7 @@ public class TemperatureTrendDao {
     private DataSource dataSource;
  //   private JdbcTemplate jdbcTemplate
     //new struct country contains country name,country code,continent,country type
+    //get temperature trend of certain country(contain the monthly value)
     public Country getCertainCountry(string countryname) throws SQLException {
         Connection con=dataSource.getConnection();
         String query="select country.country_code as code,country.country_name as name,continent.continent_name as continent,country_type.type_name as type
@@ -82,6 +83,8 @@ and country.country_name='+name+'";
         return countrytype;
     }
     //get temperature trend by years(search temperature trend by country,continent,country type)
+    //because in the data set we have month, but we just need to see whether temperature change by years, so we don't need month data
+    //i get average value of every year of certain country and then get world average temperature value 
     //type=0:search by country,name=countryname;type=1:search by continent,name=continentname;type=2:search by countrytype,name=typename
      public List<Temperature> getTemperatureTrend(string name,int type)
             throws SQLException {
