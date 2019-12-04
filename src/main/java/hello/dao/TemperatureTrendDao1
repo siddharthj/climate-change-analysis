@@ -1,0 +1,164 @@
+package hello.dao;
+
+import hello.model.IslandCount;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+//CISE Oracle Server	sj3@//oracle.cise.ufl.edu:1521/orcl
+@Repository
+public class IslandDao {
+    @Autowired
+    private DataSource dataSource;
+ //   private JdbcTemplate jdbcTemplate
+    //new struct country contains country name,country code,continent,country type
+    public Country getCertainCountry(string countryname) throws SQLException {
+        Connection con=dataSource.getConnection();
+        String query="select country.country_code as code,country.country_name as name,continent.continent_name as continent,country_type.type_name as type
+from country,continent,country_type
+where country.continent_id=continent.continent_id
+and country.type_id=country_type.type_id
+and country.country_name='+name+'";
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String cn = rs.getString("name");
+                string code=rs.getString("code");
+                string ctn=rs.getString("continent");
+                string tn=rs.getString("type");
+                Country onecountry=new Country(cn,code,ctn,tn);
+            }
+        }
+        return onecountry;
+    }
+    //get all country name in order to get temperature trend by certian country
+    //display the country name in drop-down box(something like that) so that user can choose one country
+    public List<string> getAllCountry()
+            throws SQLException {
+        List<string> countryname=new ArrayList<>();
+        Connection con=dataSource.getConnection();
+        String query="select country_name from country";
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String cn = rs.getString("country_name");
+                countryname.add(cn);
+            }
+        }
+        return countryname;
+    }
+    //get all continent in order to get temperature trend by region
+    public List<string> getAllContinent()
+            throws SQLException {
+        List<string> continent=new ArrayList<>();
+        Connection con=dataSource.getConnection();
+        String query="select continent_name from continent";
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String cn = rs.getString("continent_name");
+                continent.add(cn);
+            }
+        }
+        return continent;
+    }
+    //get all country type in order to get temperature trend by country type
+    public List<string> getAllCountrytype()
+            throws SQLException {
+        List<string> countrytype=new ArrayList<>();
+        Connection con=dataSource.getConnection();
+        String query="select type_name from country_type";
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String tn = rs.getString("type_name");
+                countrytype.add(tn);
+            }
+        }
+        return countrytype;
+    }
+    //get temperature trend by years(search temperature trend by country,continent,country type)
+    //type=0:search by country,name=countryname;type=1:search by continent,name=continentname;type=2:search by countrytype,name=typename
+     public List<Temperature> getTemperatureTrend(string name,int type)
+            throws SQLException {
+        List<Temperature> TemTrend=new ArrayList<>();
+        Connection con = dataSource.getConnection();
+        //get temperature trend by certain country
+        if(type==0)
+        {string query="select years as everyyear,avg(Tvalue) as yearavgtem from(
+select country_code as ccode,extract(year from temperature_date) as years,temperature_value as Tvalue from temperature),country
+where country.country_code=ccode
+and country.country_name='+"name"+'
+group by years
+order by years";
+          }
+        else if(type==1)
+        {
+        string query="select years as everyyear,avg(Tvalue) as avgvalue from(
+select country_code as ccode,extract(year from temperature_date) as years,temperature_value as Tvalue from temperature),country,continent
+where country.country_code=ccode
+and country.continent_id=continent.continent_id
+and continent.continent_name='+"name"+'
+group by years
+order by years";}
+        else if(type==2)
+        {
+        select years as everyyear,avg(Tvalue) as avgvalue from(
+select country_code as ccode,extract(year from temperature_date) as years,temperature_value as Tvalue from temperature),country,country_type
+where country.country_code=ccode
+and country.type_id=country_type.type_id
+and country_type.type_name='+"name"+'
+group by years
+order by years;
+        }
+        //get worldwide temperature trend 
+        else
+        {
+          string query="select years as everyyear,avg(Tvalue) as yearavgtem from(
+select extract(year from temperature_date) as years,temperature_value as Tvalue from temperature)
+group by years
+order by years";}
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String year = rs.getString("everyyear");
+                double avgtem = rs.getInt("yearavgtem");
+                Temperature onetemperaturetrend = new Temperature(year, avgtem);
+                TemTrend.add(onetemperaturetrend);
+            }
+        }
+        return TemTrend;
+    }
+    //get certain temperature trend between certain range from one country(with month and days)
+      public List<Temperature> getDetailTemperature(string name,string begindate,string enddate)
+            throws SQLException {
+        List<TemperatureTrend> TemDetail=new ArrayList<>();
+        Connection con = dataSource.getConnection();
+        string query="select temperature_value as tvalue, temperature_date as tdate from temperature,country
+where country.country_code=temperature.country_code
+and country.country_name='+"name"+'";
+        if(begindate!=null)
+        {
+        if(enddate==null)
+        {SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+         enddate=df.format(new Date());
+        }
+        query+="and temperature_date between to_date('+"begindate"+','yyyy-mm-dd') and to_date('+enddate+','yyyy-mm-dd')"
+        }
+        }
+          try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String date = rs.getString("tdate");
+                double tem = rs.getInt("tvalue");
+                Temperature onetemperature = new Temperature(date, tem);
+                TemDetail.add(onetemperature);
+            }
+        }
+        return TemDetail;
+}
+© 2019 GitHub, Inc.
