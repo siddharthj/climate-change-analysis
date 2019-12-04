@@ -18,7 +18,7 @@ public class WelcomeController {
     public String about(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) throws SQLException {
         //List<IslandCount> islandCounts = islandDao.getIslandCount();
         model.addAttribute("islandCounts", new ArrayList<>());
-        return "welcome";
+        return "about";
     }
 
 }

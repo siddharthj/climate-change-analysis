@@ -1,8 +1,11 @@
-hello\model\IslandCount.class
 hello\controller\D3TestDataController.class
-hello\OracleConfiguration.class
 hello\controller\WelcomeController.class
 hello\controller\D3TestController.class
 hello\controller\AboutController.class
 hello\Application.class
+hello\model\IslandCount.class
+hello\controller\Query1Controller.class
 hello\dao\IslandDao.class
+hello\controller\MotivationController.class
+hello\OracleConfiguration.class
+hello\controller\ErController.class

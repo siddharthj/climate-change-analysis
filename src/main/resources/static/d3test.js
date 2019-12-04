@@ -1,19 +1,21 @@
 // https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-languages
 
-    $("button").click(function(e) {
-        e.preventDefault();
+    $("#button-query1").click(function(e) {
+        //e.preventDefault();
+        console.log("Inside Button query");
         $.ajax({
             type: "GET",
             url: "/d3testdata",
+            dataType:'json',
             data: {
                 name: "testing my beautiful code :-*"
             },
             success: function(result) {
-                alert('testing my beautiful code :-*');
+                //alert('testing my beautiful code :-*');
                 printChart(result)
             },
             error: function(result) {
-                alert('error');
+                //alert('error');
             }
         });
     });
@@ -23,9 +25,9 @@
         const svg = d3.select('svg');
         const svgContainer = d3.select('#container');
 
-        const margin = 120;
-        const width = 1200 - 2 * margin;
-        const height = 500 - 2 * margin;
+        const margin = 200;
+        const width = 1000 - 2 * margin;
+        const height = 800 - 2 * margin;
 
         const chart = svg.append('g')
           .attr('transform', `translate(${margin}, ${margin})`);
