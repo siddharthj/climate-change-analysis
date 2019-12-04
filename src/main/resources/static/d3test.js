@@ -21,6 +21,8 @@
     });
 
     function printChart(data) {
+        var a = document.getElementById('layout1')
+        a.innerHTML= '<div id="container"><svg/></div>'
 
         const svg = d3.select('svg');
         const svgContainer = d3.select('#container');
