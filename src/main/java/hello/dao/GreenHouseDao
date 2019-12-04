@@ -73,4 +73,33 @@ where temyears=gasyear";
         }
         return data;
     }
+    //get top 10 countries which pproduce gas most
+    //type:which gas(co2 or methane)
+    public List<GandT> getGTrelationship(string type)
+            throws SQLException {
+        List<GandT> data = new ArrayList<>();
+        Connection con = dataSource.getConnection();
+        String query = "select temyears,tem,emission from(
+select temyears,avg(temperature_value) as tem from(
+select extract(year from temperature_date) as temyears,temperature_value from temperature)
+group by temyears
+order by temyears),(
+select emission_year as gasyear,avg(emission_amount) as emission from greenhouse_gas_emission,greenhouse_gas_type
+where greenhouse_gas_emission.gas_type=greenhouse_gas_type.gas_type_id
+and greenhouse_gas_type.greenhouse_gas_name='+"type"+'
+group by emission_year
+order by emission_year)
+where temyears=gasyear";
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Double emission = rs.getInt("emission");
+                Double tem=rs.getInt("tem");
+                String year=rs.getInt("temyears");
+                GandT onedata = new GandT(years, emission, tem);
+                data.add(onedata);
+            }
+        }
+        return data;
+    }
 }
