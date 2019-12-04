@@ -11,30 +11,34 @@ import java.util.List;
 
 //CISE Oracle Server	sj3@//oracle.cise.ufl.edu:1521/orcl
 @Repository
-public class IslandDao {
+public class GreenHouseDao {
     @Autowired
     private DataSource dataSource;
  //   private JdbcTemplate jdbcTemplate
-
-    public List<IslandCount> getIslandCount()
+    //new struct GandT: string:year,double:greenhouseemission, double:temperature
+    //get the relationship between green house gas and temperature in certain country
+    public List<GandT> getGTRelationship(string name,string type)
             throws SQLException {
-        List<IslandCount> data = new ArrayList<>();
+        List<GandT> data = new ArrayList<>();
         Connection con = dataSource.getConnection();
-        String query = "    select \n" +
-                "        c.name as country, \n" +
-                "        count(i.island) as islandCount \n" +
-                "            from geo_island i\n" +
-                "                inner join country c on i.country = c.code\n" +
-                "    group by c.name  \n" +
-                "    order by count(i.island) desc \n" +
-                "    OFFSET 0 ROWS FETCH NEXT 15 ROWS ONLY";
+        String query = "select ccode,emission_year,emission_amount,tem from( select ccode,years,avg(temperature_value) as tem from(
+select country_code as ccode,extract(year from temperature_date) as years,temperature_value from temperature)
+group by ccode,years
+order by ccode,years),greenhouse_gas_emission,greenhouse_gas_type,country
+where years=emission_year
+and ccode=greenhouse_gas_emission.country_code
+and greenhouse_gas_emission.gas_type=greenhouse_gas_type.gas_type_id
+and country.country_code=ccode
+and greenhouse_gas_type.greenhouse_gas_name='+"type"+'
+and country.country_name='+"name"+'";
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String country = rs.getString("country");
-                Integer count = rs.getInt("islandCount");
-                IslandCount islandCount = new IslandCount(country, count);
-                data.add(islandCount);
+                Double emission = rs.getInt("emission_amount");
+                Double tem=rs.getInt("tem");
+                String year=rs.getInt("emission_year");
+                GandT onedata = new GandT(year, emission, tem);
+                data.add(onedata);
             }
         }
         return data;
