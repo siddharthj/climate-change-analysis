@@ -11,7 +11,7 @@ import java.util.List;
 
 //CISE Oracle Server	sj3@//oracle.cise.ufl.edu:1521/orcl
 @Repository
-public class IslandDao {
+public class TemperatureTrendDao {
     @Autowired
     private DataSource dataSource;
  //   private JdbcTemplate jdbcTemplate
